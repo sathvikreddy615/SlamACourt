@@ -7,7 +7,7 @@ namespace SlamACourt.Models
 {
     public class TennisCourt
     {
-        public int TennisCourtId { get; set; }
+        public int Id { get; set; }
         public string Surface { get; set; }
         public string Name { get; set; }
     }

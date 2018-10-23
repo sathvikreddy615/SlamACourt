@@ -7,7 +7,7 @@ namespace SlamACourt.Models
 {
     public class UserPartner
     {
-        public int UserPartnerId { get; set; }
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int PartnerId { get; set; }
     }
