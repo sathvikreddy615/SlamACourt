@@ -59,8 +59,17 @@ namespace SlamACourt.Models
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
+            string sql = $@"INSERT INTO [User] (Name, Email, Password) VALUES ('{user.Name}', '{user.Email}', '{user.Password}')
+            select MAX(Id) from [User]";
+
+            using (IDbConnection conn = Connection)
+            {
+                var newUserId = (await conn.QueryAsync<int>(sql)).Single();
+                user.Id = newUserId;
+                return CreatedAtRoute("GetUserTennisCourt", new { id = newUserId }, user);
+            }
         }
 
         // PUT: api/User/5
@@ -69,10 +78,21 @@ namespace SlamACourt.Models
         {
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            string sql = $@"DELETE FROM [User] WHERE Id = {id}";
+
+            using (IDbConnection conn = Connection)
+            {
+                int rowsAffected = await conn.ExecuteAsync(sql);
+                if (rowsAffected > 0)
+                {
+                    return new StatusCodeResult(StatusCodes.Status204NoContent);
+                }
+                throw new Exception("No rows affected");
+            }
         }
     }
 }
