@@ -14,12 +14,12 @@ namespace SlamACourt.Models
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserTennisCourtController : ControllerBase
+    public class BookedTennisCourtController : ControllerBase
     {
 
         private readonly IConfiguration _config;
 
-        public UserTennisCourtController(IConfiguration config)
+        public BookedTennisCourtController(IConfiguration config)
         {
             _config = config;
         }
@@ -32,58 +32,58 @@ namespace SlamACourt.Models
             }
         }
 
-        // GET: api/UserTennisCourt
+        // GET: api/BookedTennisCourt
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             using (IDbConnection conn = Connection)
             {
-                string sql = "SELECT * FROM UserTennisCourt";
+                string sql = "SELECT * FROM BookedTennisCourt";
 
-                var allUserTennisCourts = await Connection.QueryAsync<UserTennisCourt>(sql);
-                return Ok(allUserTennisCourts);
+                var allBookedTennisCourts = await Connection.QueryAsync<BookedTennisCourt>(sql);
+                return Ok(allBookedTennisCourts);
             }
         }
 
-        // GET: api/UserTennisCourt/5
+        // GET: api/BookedTennisCourt/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sql = $"SELECT * FROM UserTennisCourt WHERE Id = {id}";
+                string sql = $"SELECT * FROM BookedTennisCourt WHERE Id = {id}";
 
-                var singleUserTennisCourt = (await conn.QueryAsync<UserTennisCourt>(sql)).Single();
-                return Ok(singleUserTennisCourt);
+                var singleBookedTennisCourt = (await conn.QueryAsync<BookedTennisCourt>(sql)).Single();
+                return Ok(singleBookedTennisCourt);
             }
         }
        
-        // POST: api/UserTennisCourt
+        // POST: api/BookedTennisCourt
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserTennisCourt userTennisCourt)
+        public async Task<IActionResult> Post([FromBody] BookedTennisCourt bookedTennisCourt)
         {
-            string sql = $@"INSERT INTO UserTennisCourt (UserId, TennisCourtId, StartTime, EndTime) VALUES ('{userTennisCourt.UserId}', '{userTennisCourt.TennisCourtId}', '{userTennisCourt.StartTime}', '{userTennisCourt.EndTime}')
-            select MAX(Id) from UserTennisCourt";
+            string sql = $@"INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime) VALUES ('{bookedTennisCourt.UserId}', '{bookedTennisCourt.TennisCourtId}', '{bookedTennisCourt.StartTime}', '{bookedTennisCourt.EndTime}')
+            select MAX(Id) from BookedTennisCourt";
 
             using (IDbConnection conn = Connection)
             {
-                var newUserTennisCourtId = (await conn.QueryAsync<int>(sql)).Single();
-                userTennisCourt.Id = newUserTennisCourtId;
-                return CreatedAtRoute("GetUserTennisCourt", new { id = newUserTennisCourtId }, userTennisCourt);
+                var newBookedTennisCourtId = (await conn.QueryAsync<int>(sql)).Single();
+                bookedTennisCourt.Id = newBookedTennisCourtId;
+                return CreatedAtRoute("GetBookedTennisCourt", new { id = newBookedTennisCourtId }, bookedTennisCourt);
             }
         }
 
-        // PUT: api/UserTennisCourt/5
+        // PUT: api/BookedTennisCourt/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/UserTennisCourt/5
+        // DELETE: api/BookedTennisCourt/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            string sql = $@"DELETE FROM UserTennisCourt WHERE Id = {id}";
+            string sql = $@"DELETE FROM BookedTennisCourt WHERE Id = {id}";
 
             using (IDbConnection conn = Connection)
             {

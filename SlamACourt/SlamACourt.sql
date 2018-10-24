@@ -1,17 +1,13 @@
---ALTER TABLE UserTennisCourt DROP CONSTRAINT [FK_User];
---ALTER TABLE UserTennisCourt DROP CONSTRAINT [FK_TennisCourt];
---ALTER TABLE UserPartner DROP CONSTRAINT [FK_User];
---ALTER TABLE UserPartner DROP CONSTRAINT [FK_Partner];
+--ALTER TABLE BookedTennisCourt DROP CONSTRAINT [FK_User];
+--ALTER TABLE BookedTennisCourt DROP CONSTRAINT [FK_TennisCourt];
 
 --delete from User;
---delete from UserPartner;
 --delete from TennisCourt;
---delete from UserTennisCourt;
+--delete from BookedTennisCourt;
 
 --drop table if exists User;
---drop table if exists UserPartner;
 --drop table if exists TennisCourt;
---drop table if exists UserTennisCourt;
+--drop table if exists BookedTennisCourt;
 
 --User Data
 
@@ -37,26 +33,6 @@ VALUES
 INSERT INTO [User] (Name, Email, Password)
 VALUES
 ('Michael King', 'mking@gmail.com', 'tennis123');
-
---UserPartner Data
-
-CREATE TABLE UserPartner (
-Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
-UserId INTEGER NOT NULL,
-PartnerId INTEGER NOT NULL
-);
-
-INSERT INTO UserPartner (UserId, PartnerId)
-VALUES
-(1, 2);
-
-INSERT INTO UserPartner (UserId, PartnerId)
-VALUES
-(1, 3);
-
-INSERT INTO UserPartner (UserId, PartnerId)
-VALUES
-(1, 4);
 
 --TennisCourt Data
 
@@ -102,9 +78,9 @@ INSERT INTO TennisCourt (Surface, Name)
 VALUES
 ('Grass', 'Pete Sampras');
 
---UserTennisCourt Data
+--BookedTennisCourt Data
 
-CREATE TABLE UserTennisCourt (
+CREATE TABLE BookedTennisCourt (
 Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 UserId INTEGER NOT NULL,
 TennisCourtId INT NOT NULL,
@@ -112,14 +88,14 @@ StartTime DATETIME,
 EndTime DATETIME
 );
 
-INSERT INTO UserTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
+INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
 (1, 2, '2018-11-12 09:00:00', '2018-11-12 10:00:00');
 
-INSERT INTO UserTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
+INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
 (1, 5, '2018-11-13 13:00:00', '2018-11-13 15:00:00');
 
-INSERT INTO UserTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
+INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
 (1, 7, '2018-11-13 16:00:00', '2018-11-14 17:00:00');

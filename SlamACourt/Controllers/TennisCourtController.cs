@@ -59,8 +59,18 @@ namespace SlamACourt.Models
        
         // POST: api/TennisCourt
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody] TennisCourt tennisCourt)
         {
+            string sql = $@"INSERT INTO TennisCourt (Surface, Name) VALUES ('{tennisCourt.Surface}', '{tennisCourt.Name}')
+            select MAX(Id) from TennisCourt";
+
+            using (IDbConnection conn = Connection)
+            {
+                var newTennisCourtId = (await conn.QueryAsync<int>(sql)).Single();
+                tennisCourt.Id = newTennisCourtId;
+                return CreatedAtRoute("GetTennisCourt", new { id = newTennisCourtId }, tennisCourt);
+            }
         }
 
         // PUT: api/TennisCourt/5
