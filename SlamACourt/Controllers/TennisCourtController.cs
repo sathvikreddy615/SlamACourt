@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace SlamACourt.Models
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("SlamACourt")]
     public class TennisCourtController : ControllerBase
     {
         private readonly IConfiguration _config;
