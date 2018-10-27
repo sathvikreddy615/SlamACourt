@@ -9,11 +9,11 @@ export default class Manage extends Component {
         courtName: ""
     };
 
-    componentDidMount = () => {
-        APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
-            console.log(arrOfTennisCourts);
-        })
-      };
+    // componentDidMount = () => {
+    //     APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
+    //         console.log(arrOfTennisCourts);
+    //     })
+    //   };
 
 
     render() {

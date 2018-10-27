@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -135,23 +136,31 @@ class PersistentDrawerLeft extends React.Component {
           </div>
           <Divider />
           <List> 
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>Home
-            </ListItem>
 
-            <ListItem button>
-              <ListItemIcon>
-                <ScheduleIcon />
-              </ListItemIcon>Book a Court
-            </ListItem>
+            <Link to="/">
+              <ListItem button>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>Home
+              </ListItem>
+            </Link>
 
-            <ListItem button>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>Manage Courts
-            </ListItem>
+            <Link to="/book-a-court">
+              <ListItem button>
+                <ListItemIcon>
+                  <ScheduleIcon />
+                </ListItemIcon>Book a Court
+              </ListItem>
+            </Link>
+
+            <Link to="/manage-courts">
+              <ListItem button>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>Manage Courts
+              </ListItem>
+            </Link>
+
           </List>
         </Drawer>
       </div>

@@ -15,6 +15,24 @@ const styles = theme => ({
   },
 });
 
+const currentDate = () => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yyyy = today.getFullYear();
+  
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+  
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+  
+    today = yyyy + "-" + mm + "-" + dd;
+    return today;
+};
+
 function DatePickers(props) {
   const { classes } = props;
 
@@ -22,9 +40,9 @@ function DatePickers(props) {
     <form className={classes.container} noValidate>
       <TextField
         id="date"
-        label="Birthday"
+        label="Date"
         type="date"
-        defaultValue="2017-05-24"
+        defaultValue={currentDate()}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
