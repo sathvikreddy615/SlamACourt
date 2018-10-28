@@ -3,6 +3,10 @@ export default class APIManager {
       return fetch(`https://localhost:5001/api/${table}`)
       .then(e => e.json());
     };
+    static getBookedTennisCourts = id => {
+      return fetch(`https://localhost:5001/api/bookedtenniscourt/${id}`)
+      .then(e => e.json());
+    };
     // static addData = (table, data) => {
     //   return fetch(`http://localhost:5000//${table}`, {
     //     method: "POST",

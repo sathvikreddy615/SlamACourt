@@ -4,36 +4,12 @@ import ReactTimeslotCalendar from 'react-timeslot-calendar';
 import SurfaceFilter from "./SurfaceFilter";
 import DateFilter from "./DateFilter";
 import Calendar from "./Calendar";
-import APIManager from "../APIManager";
+// import APIManager from "../APIManager";
  
 export default class Booking extends Component {
   state = {
     tennisCourtNames: []
   };
-
-  // handleSelectionChange = e => {
-  //   // let userSelectedSurface = "";
-
-  //   if (e.target.value === "Hard") {
-  //     console.log("Hard!");
-  //     this.setState({
-  //       surface: "Hard"
-  //     })
-  //   } else if (e.target.value === "Clay") {
-  //     console.log("Clay!");
-  //     this.setState({
-  //       surface: "Clay"
-  //     })
-  //   } else if (e.target.value === "Grass") {
-  //     console.log("Grass!");
-  //     this.setState({
-  //       surface: "Grass"
-  //     })
-  //   } else {
-  //     alert("Please select a surface!");
-  //   }
-  // }
-
 
   // componentDidMount = () => {
   //   APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
@@ -66,8 +42,7 @@ export default class Booking extends Component {
         <br />
         <br />
         <br />
-      <SurfaceFilter handleChange={this.handleChange} courtNames={this.state.tennisCourtNames} />
-      <DateFilter />
+      <SurfaceFilter courtNames={this.state.tennisCourtNames} />
 
       <Calendar />
 
