@@ -3,8 +3,8 @@ export default class APIManager {
       return fetch(`https://localhost:5001/api/${table}`)
       .then(e => e.json());
     };
-    static getBookedTennisCourts = id => {
-      return fetch(`https://localhost:5001/api/bookedtenniscourt/${id}`)
+    static getBookedTennisCourts = tcId => {
+      return fetch(`https://localhost:5001/api/bookedtenniscourt?tennisCourtId=${tcId}`)
       .then(e => e.json());
     };
     // static addData = (table, data) => {

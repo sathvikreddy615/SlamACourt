@@ -44,7 +44,7 @@ export default class Booking extends Component {
         <br />
       <SurfaceFilter courtNames={this.state.tennisCourtNames} />
 
-      <Calendar />
+      {/* <Calendar /> */}
 
       </React.Fragment>
     );

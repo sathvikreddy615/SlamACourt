@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import APIManager from "../APIManager";
+import Calendar from "./Calendar";
 
 const styles = theme => ({
   root: {
@@ -87,6 +88,12 @@ class CourtFilters extends React.Component {
     }) 
   };
 
+  queryRequestedCourtData = () => {
+    APIManager.getBookedTennisCourts(this.state.userSelectedCourtId).then(bookedCourt => {
+      console.log(bookedCourt);
+    })
+  };
+
   render() {
     const styles = theme => ({
       button: {
@@ -135,9 +142,11 @@ class CourtFilters extends React.Component {
           </FormControl>
         </form>
 
-        <Button onClick={this.handleSubmission} variant="contained" color="primary" className={this.button}>
+        <Button gary={this.queryRequestedCourtData()} onClick={this.handleSubmission} variant="contained" color="primary" className={this.button}>
           Show Availability
         </Button>
+
+        <Calendar courtId={this.userSelectedCourtId} />
       </React.Fragment>
     );
   }
