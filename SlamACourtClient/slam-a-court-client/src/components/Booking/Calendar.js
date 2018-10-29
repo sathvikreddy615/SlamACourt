@@ -8,18 +8,13 @@ export default class Calendar extends Component {
 
   };
 
-  // queryRequestedCourtData = () => {
-  //   APIManager.getBookedTennisCourts(this.props.courtId).then(bookedCourt => {
-  //     console.log(bookedCourt);
-  //   })
-  // };
-
   // componentDidMount = () => {
-  //   this.renderCalendar();
+  //   this.queryRequestedCourtData();
   // }
   
   render() {
     let timeslots = [
+      ['9', '10'], // 09:00 AM - 10:00 AM
       ['10', '11'], // 10:00 AM - 11:00 AM
       ['11', '12'], // 11:00 AM - 12:00 AM
       ['12', '13'], // 12:00 AM - 1:00 PM
@@ -36,9 +31,14 @@ export default class Calendar extends Component {
 //   };
 
     return (
+
+      <React.Fragment>
       <ReactTimeslotCalendar timeslots={timeslots} maxTimeslots={maxTimeslots}
         initialDate={moment().format()}
       />
+
+      {/* <button onClick={this.gary}>Hello</button> */}
+      </React.Fragment>
     );
   }
 }

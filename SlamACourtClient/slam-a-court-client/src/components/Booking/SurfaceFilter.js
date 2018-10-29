@@ -29,7 +29,9 @@ class CourtFilters extends React.Component {
     userSelectedSurface: "",
     tennisCourtNames: [],
     userSelectedCourt: "",
-    userSelectedCourtId: 0
+    userSelectedCourtData: [],
+    startHours: [],
+    endHours: []
   };
 
   renderCourtSelectionBySurface = () => {
@@ -77,21 +79,30 @@ class CourtFilters extends React.Component {
   };
 
   handleSubmission = () => {
+    let courtId = 0;
+    let startHoursClone = [];
+    let endHoursClone = [];
+
     APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
       arrOfTennisCourts.forEach(tennisCourt => {
         if (this.state.userSelectedCourt === tennisCourt.name) {
-          this.setState({
-            userSelectedCourtId: tennisCourt.id
-          })
+          courtId = tennisCourt.id;
         }
       })
-    }) 
-  };
+      APIManager.getBookedTennisCourts(courtId).then(bookedCourtData => {
+        bookedCourtData.forEach(courts => {
+          let extractStartHour = courts.startTime.slice(11, 13);
+          let extractEndHour = courts.endTime.slice(11, 13);
 
-  queryRequestedCourtData = () => {
-    APIManager.getBookedTennisCourts(this.state.userSelectedCourtId).then(bookedCourt => {
-      console.log(bookedCourt);
-    })
+          startHoursClone.push(extractStartHour);
+          endHoursClone.push(extractEndHour);
+        });
+        this.setState({
+          startHours: startHoursClone,
+          endHours: endHoursClone
+        })
+      })
+    }) 
   };
 
   render() {
@@ -142,11 +153,11 @@ class CourtFilters extends React.Component {
           </FormControl>
         </form>
 
-        <Button gary={this.queryRequestedCourtData()} onClick={this.handleSubmission} variant="contained" color="primary" className={this.button}>
+        <Button onClick={this.handleSubmission} variant="contained" color="primary" className={this.button}>
           Show Availability
         </Button>
 
-        <Calendar courtId={this.userSelectedCourtId} />
+        <Calendar userSelectedCourtData={this.state.userSelectedCourtData} />
       </React.Fragment>
     );
   }
