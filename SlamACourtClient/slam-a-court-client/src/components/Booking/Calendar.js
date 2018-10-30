@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from 'moment';
 import ReactTimeslotCalendar from 'react-timeslot-calendar';
 import APIManager from "../APIManager";
- 
+
 export default class Calendar extends Component {
   state = {
 
@@ -12,43 +12,39 @@ export default class Calendar extends Component {
   //   this.queryRequestedCourtData();
   // }
 
-  onSelectTimeslot = (allTimeslots, lastSelectedTimeslot) => {
-    /**
-     * All timeslot objects include `startDate` and `endDate`.
-   
-     * It is important to note that if timelots provided contain a single
-     * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
-     * the desired information.
-     */
+  // onSelectTimeslot = (allTimeslots, lastSelectedTimeslot) => {
+  //   /**
+  //    * All timeslot objects include `startDate` and `endDate`.
 
-    console.log(allTimeslots);
-    console.log(lastSelectedTimeslot.startDate); // MomentJS object.
-   
-  }
+  //    * It is important to note that if timelots provided contain a single
+  //    * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
+  //    * the desired information.
+  //    */
 
-  clickMe = () => {
-    this.onSelectTimeslot(this.props.timeSlot, this.props.timeSlot);
-  }
+  //   console.log(allTimeslots);
+  //   console.log(lastSelectedTimeslot.startDate); // MomentJS object.
+
+  // }
+
+  // clickMe = () => {
+  //   this.onSelectTimeslot(this.props.timeSlot, this.props.timeSlot);
+  // }
 
   render() {
-    let timeslots = [
-      ['9', '10'], // 09:00 AM - 10:00 AM
-      ['10', '11'], // 10:00 AM - 11:00 AM
-      ['11', '12'], // 11:00 AM - 12:00 AM
-      ['12', '13'], // 12:00 AM - 1:00 PM
-      ['13', '14'], // 1:00 PM - 2:00 PM
-      ['14', '15'], // 2:00 PM - 3:00 PM
-      ['15', '16'] // 3:00 PM - 4:00 PM
-  ];
 
-  let maxTimeslots = 2;
+    let onSelectTimeslot = (allTimeslots, lastSelected) => {
+      /**
+       * All timeslot objects include `startDate` and `endDate`.
+     
+       * It is important to note that if timelots provided contain a single
+       * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
+       * the desired information.
+       */
 
-  let disabledTimeslots = this.props.timeSlot;
+      console.log(allTimeslots);
+      console.log(lastSelected.startDate); // MomentJS object.
 
-//   const ignoreWeekends = {
-//     'saturdays': false,
-//     'sundays': false,
-//   };
+    }
 
     return (
 
@@ -56,9 +52,21 @@ export default class Calendar extends Component {
 
         <button onClick={this.clickMe}>Hello1</button>
 
-      <ReactTimeslotCalendar disabledTimeslots={disabledTimeslots} timeslots={timeslots} maxTimeslots={maxTimeslots}
-        initialDate={moment().format()}
-      />
+        <ReactTimeslotCalendar timeslots={[
+          ['9', '10'], // 09:00 AM - 10:00 AM
+          ['10', '11'], // 10:00 AM - 11:00 AM
+          ['11', '12'], // 11:00 AM - 12:00 AM
+          ['12', '13'], // 12:00 AM - 1:00 PM
+          ['13', '14'], // 1:00 PM - 2:00 PM
+          ['14', '15'], // 2:00 PM - 3:00 PM
+          ['15', '16'] // 3:00 PM - 4:00 PM
+        ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
+          initialDate={moment([2018, 3, 24]).format()}
+          onSelectTimeslot={(timeslots, lastSelected) => {
+            // Do stuff with timeslots.
+            console.log(lastSelected.startDate);
+          }}
+        />
 
       </React.Fragment>
     );
