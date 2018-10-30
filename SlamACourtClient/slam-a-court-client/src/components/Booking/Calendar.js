@@ -20,10 +20,16 @@ export default class Calendar extends Component {
      * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
      * the desired information.
      */
+
+    console.log(allTimeslots);
     console.log(lastSelectedTimeslot.startDate); // MomentJS object.
    
   }
-  
+
+  clickMe = () => {
+    this.onSelectTimeslot(this.props.timeSlot, this.props.timeSlot);
+  }
+
   render() {
     let timeslots = [
       ['9', '10'], // 09:00 AM - 10:00 AM
@@ -37,6 +43,8 @@ export default class Calendar extends Component {
 
   let maxTimeslots = 2;
 
+  let disabledTimeslots = this.props.timeSlot;
+
 //   const ignoreWeekends = {
 //     'saturdays': false,
 //     'sundays': false,
@@ -46,7 +54,9 @@ export default class Calendar extends Component {
 
       <React.Fragment>
 
-      <ReactTimeslotCalendar onSelectTimeslot={this.onSelectTimeslot} timeslots={timeslots} maxTimeslots={maxTimeslots}
+        <button onClick={this.clickMe}>Hello1</button>
+
+      <ReactTimeslotCalendar disabledTimeslots={disabledTimeslots} timeslots={timeslots} maxTimeslots={maxTimeslots}
         initialDate={moment().format()}
       />
 

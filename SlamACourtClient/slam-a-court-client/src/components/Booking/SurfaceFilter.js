@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import APIManager from "../APIManager";
 import Calendar from "./Calendar";
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -29,13 +30,8 @@ class CourtFilters extends React.Component {
     userSelectedSurface: "",
     tennisCourtNames: [],
     userSelectedCourt: "",
-    userSelectedCourtData: [],
-    startHours: [],
-    endHours: [],
-    timeSlot: {
-      startDate: [],
-      endDate: []
-    }
+    timeSlot: []
+    // userSelectedCourtData: []
   };
 
   renderCourtSelectionBySurface = () => {
@@ -84,10 +80,7 @@ class CourtFilters extends React.Component {
 
   handleSubmission = () => {
     let courtId = 0;
-    let startHoursClone = [];
-    let endHoursClone = [];
-    let startDateClone = [];
-    let endDateClone = [];
+    let timeSlotClone = this.state.timeSlot;
 
     APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
       arrOfTennisCourts.forEach(tennisCourt => {
@@ -121,14 +114,24 @@ class CourtFilters extends React.Component {
           let extractStartYear = extractStartDate.slice(0, 4);
           let extractEndYear = extractEndDate.slice(0, 4);
 
-          let startFullDate = `${extractStartMonth} ${extractStartDay} ${extractStartYear}, ${extractStartTime} a`;
-          let EndFullDate = `${extractEndMonth} ${extractEndDay} ${extractEndYear}, ${extractEndTime} a`;
-          startDateClone.push(startFullDate);
-          endDateClone.push(EndFullDate);
+          let reformatStartDate = `${extractStartYear}-${extractStartMonth}-${extractStartDay}, ${extractStartTime}`
+          let reformatEndDate = `${extractEndYear}-${extractEndMonth}-${extractEndDay}, ${extractEndTime}`
+
+          let startFullDate = moment(reformatStartDate).format('MMMM Do YYYY, h:mm:ss a');
+          let endFullDate = moment(reformatEndDate).format('MMMM Do YYYY, h:mm:ss a');
+          
+          let startDate = {};
+          startDate["startDate"] = startFullDate;
+          startDate["format"] = 'MMMM Do YYYY, h:mm:ss a';
+          timeSlotClone.push(startDate);
+
+          // let endDate = {};
+          // endDate["endDate"] = endFullDate;
+          // endDate["format"] = 'MMMM Do YYYY, h:mm:ss a';
+          // timeSlotClone.push(endDate);
         })
         this.setState({
-          startDate: startDateClone,
-          endDate: endDateClone
+          timeSlot: timeSlotClone
         })
       })
     }) 
@@ -186,7 +189,7 @@ class CourtFilters extends React.Component {
           Show Availability
         </Button>
 
-        <Calendar />
+        <Calendar timeSlot={this.state.timeSlot} />
       </React.Fragment>
     );
   }
