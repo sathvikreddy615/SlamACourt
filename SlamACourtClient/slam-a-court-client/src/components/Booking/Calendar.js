@@ -8,49 +8,55 @@ export default class Calendar extends Component {
 
   };
 
-  // componentDidMount = () => {
-  //   this.queryRequestedCourtData();
-  // }
 
-  // onSelectTimeslot = (allTimeslots, lastSelectedTimeslot) => {
-  //   /**
-  //    * All timeslot objects include `startDate` and `endDate`.
 
-  //    * It is important to note that if timelots provided contain a single
-  //    * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
-  //    * the desired information.
-  //    */
+  getDate = () => {
+    
+    // get user selected time
+    let timeClass = document.getElementsByClassName("tsc-timeslot--selected");
+    for (let i = 0; i < timeClass.length; i++) {
+      let timeValue = timeClass[i].innerText;
 
-  //   console.log(allTimeslots);
-  //   console.log(lastSelectedTimeslot.startDate); // MomentJS object.
-
-  // }
-
-  // clickMe = () => {
-  //   this.onSelectTimeslot(this.props.timeSlot, this.props.timeSlot);
-  // }
-
-  render() {
-
-    let onSelectTimeslot = (allTimeslots, lastSelected) => {
-      /**
-       * All timeslot objects include `startDate` and `endDate`.
-     
-       * It is important to note that if timelots provided contain a single
-       * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
-       * the desired information.
-       */
-
-      console.log(allTimeslots);
-      console.log(lastSelected.startDate); // MomentJS object.
-
+      let slicedTimeValue = timeValue.slice(0, 4);
+      if (timeValue.length > 17) {
+        slicedTimeValue = timeValue.slice(0, 5);
+      }
+      console.log(slicedTimeValue);
     }
 
+    // get current week based on time selected
+    let weekClass = document.getElementsByClassName("tsc-month__action-title");
+    for (let i = 0; i < weekClass.length; i++) {
+      let weekValue = weekClass[i].innerText;
+
+      let weekBeginMonth = weekValue.slice(0, 3); // extract the first month abbrev
+      let weekEndMonth = weekValue.slice(11, 14); // extract the last month abbren
+
+      let weekBeginDate = weekValue.slice(4, 8); // extraact the first day number
+      let weekEndDate = weekValue.slice(15, 19); // extract the last day number
+
+      if (weekValue.length == 17) {
+        weekEndMonth = weekValue.slice(10, 14);
+        weekEndDate = weekValue.slice(14, 18);  
+      }
+
+      console.log(weekBeginMonth);
+      console.log(weekBeginDate);
+      console.log(weekEndMonth);
+      console.log(weekEndDate);
+    }
+
+    let yearValue = moment().year();
+    let currentYear = yearValue.toString();
+    console.log(currentYear);
+  }
+
+  render() {
     return (
 
       <React.Fragment>
 
-        <button onClick={this.clickMe}>Hello1</button>
+        <button onClick={this.getDate}>Hello1</button>
 
         <ReactTimeslotCalendar timeslots={[
           ['9', '10'], // 09:00 AM - 10:00 AM
@@ -61,11 +67,7 @@ export default class Calendar extends Component {
           ['14', '15'], // 2:00 PM - 3:00 PM
           ['15', '16'] // 3:00 PM - 4:00 PM
         ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
-          initialDate={moment([2018, 3, 24]).format()}
-          onSelectTimeslot={(timeslots, lastSelected) => {
-            // Do stuff with timeslots.
-            console.log(lastSelected.startDate);
-          }}
+          initialDate={moment().format()}
         />
 
       </React.Fragment>
