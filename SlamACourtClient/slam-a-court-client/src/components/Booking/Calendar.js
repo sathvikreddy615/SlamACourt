@@ -11,6 +11,18 @@ export default class Calendar extends Component {
   // componentDidMount = () => {
   //   this.queryRequestedCourtData();
   // }
+
+  onSelectTimeslot = (allTimeslots, lastSelectedTimeslot) => {
+    /**
+     * All timeslot objects include `startDate` and `endDate`.
+   
+     * It is important to note that if timelots provided contain a single
+     * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
+     * the desired information.
+     */
+    console.log(lastSelectedTimeslot.startDate); // MomentJS object.
+   
+  }
   
   render() {
     let timeslots = [
@@ -33,11 +45,11 @@ export default class Calendar extends Component {
     return (
 
       <React.Fragment>
-      <ReactTimeslotCalendar timeslots={timeslots} maxTimeslots={maxTimeslots}
+
+      <ReactTimeslotCalendar onSelectTimeslot={this.onSelectTimeslot} timeslots={timeslots} maxTimeslots={maxTimeslots}
         initialDate={moment().format()}
       />
 
-      {/* <button onClick={this.gary}>Hello</button> */}
       </React.Fragment>
     );
   }

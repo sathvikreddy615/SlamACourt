@@ -31,7 +31,11 @@ class CourtFilters extends React.Component {
     userSelectedCourt: "",
     userSelectedCourtData: [],
     startHours: [],
-    endHours: []
+    endHours: [],
+    timeSlot: {
+      startDate: [],
+      endDate: []
+    }
   };
 
   renderCourtSelectionBySurface = () => {
@@ -82,6 +86,8 @@ class CourtFilters extends React.Component {
     let courtId = 0;
     let startHoursClone = [];
     let endHoursClone = [];
+    let startDateClone = [];
+    let endDateClone = [];
 
     APIManager.getAllData("tenniscourt").then(arrOfTennisCourts => {
       arrOfTennisCourts.forEach(tennisCourt => {
@@ -91,15 +97,38 @@ class CourtFilters extends React.Component {
       })
       APIManager.getBookedTennisCourts(courtId).then(bookedCourtData => {
         bookedCourtData.forEach(courts => {
-          let extractStartHour = courts.startTime.slice(11, 13);
-          let extractEndHour = courts.endTime.slice(11, 13);
+          // let extractStartHour = courts.startTime.slice(11, 13);
+          // let extractEndHour = courts.endTime.slice(11, 13);
 
-          startHoursClone.push(extractStartHour);
-          endHoursClone.push(extractEndHour);
-        });
+          // let extractStartDate = courts.startTime.slice(0, 10);
+
+          // startHoursClone.push(extractStartHour);
+          // endHoursClone.push(extractEndHour);
+
+          // MMMM Do YYYY, h:mm:ss a
+          let extractStartTime = courts.startTime.slice(11,19);
+          let extractEndTime = courts.endTime.slice(11, 19);
+          
+          let extractStartDate = courts.startTime.slice(0, 10);
+          let extractEndDate = courts.endTime.slice(0, 10);
+
+          let extractStartMonth = extractStartDate.slice(5, 7);
+          let extractEndMonth = extractEndDate.slice(5, 7);
+  
+          let extractStartDay = extractStartDate.slice(8, 10);
+          let extractEndDay = extractEndDate.slice(8, 10);
+
+          let extractStartYear = extractStartDate.slice(0, 4);
+          let extractEndYear = extractEndDate.slice(0, 4);
+
+          let startFullDate = `${extractStartMonth} ${extractStartDay} ${extractStartYear}, ${extractStartTime} a`;
+          let EndFullDate = `${extractEndMonth} ${extractEndDay} ${extractEndYear}, ${extractEndTime} a`;
+          startDateClone.push(startFullDate);
+          endDateClone.push(EndFullDate);
+        })
         this.setState({
-          startHours: startHoursClone,
-          endHours: endHoursClone
+          startDate: startDateClone,
+          endDate: endDateClone
         })
       })
     }) 
@@ -157,7 +186,7 @@ class CourtFilters extends React.Component {
           Show Availability
         </Button>
 
-        <Calendar userSelectedCourtData={this.state.userSelectedCourtData} />
+        <Calendar />
       </React.Fragment>
     );
   }
