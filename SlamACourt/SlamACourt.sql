@@ -90,12 +90,20 @@ EndTime DATETIME
 
 INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
-(1, 2, '2018-11-12 09:00:00', '2018-11-12 10:00:00');
+(1, 1, '2018-11-02 09:00:00', '2018-11-02 10:00:00');
 
 INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
-(1, 5, '2018-11-13 13:00:00', '2018-11-13 15:00:00');
+(1, 5, '2018-11-01 09:00:00', '2018-11-01 10:00:00');
 
 INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
 VALUES
-(1, 7, '2018-11-13 16:00:00', '2018-11-14 17:00:00');
+(1, 7, '2018-11-01 11:00:00', '2018-11-01 12:00:00');
+
+INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
+VALUES
+(1, 1, '2018-11-02 14:00:00', '2018-11-02 15:00:00');
+
+INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime)
+VALUES
+(1, 1, '2018-11-02 12:00:00', '2018-11-02 13:00:00')

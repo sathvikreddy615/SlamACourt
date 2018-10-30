@@ -35,24 +35,7 @@ namespace SlamACourt.Models
         }
 
         // GET: api/BookedTennisCourt
-        //[HttpGet]
-        //public async Task<IActionResult> Get(string _filter, int _tcId)
-        //{
-        //    using (IDbConnection conn = Connection)
-        //    {
-        //        string sql = "SELECT * FROM BookedTennisCourt";
-
-        //        if (_filter == "tennisCourtId")
-        //        {
-        //            sql = "SELECT * FROM BookedTennisCourt WHERE TennisCourtId = {_tcId}";
-        //        }
-
-        //        var allBookedTennisCourts = await Connection.QueryAsync<BookedTennisCourt>(sql);
-        //        return Ok(allBookedTennisCourts);
-        //    }
-        //}
-
-        // GET: api/BookedTennisCourt
+        // GET: api/BookedTennisCourt?tennisCourtId=2
         [HttpGet]
         public async Task<IActionResult> Get(int? tennisCourtId)
         {
