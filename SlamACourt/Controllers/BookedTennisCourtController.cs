@@ -36,24 +36,56 @@ namespace SlamACourt.Models
 
         // GET: api/BookedTennisCourt
         // GET: api/BookedTennisCourt?tennisCourtId=2
+        // GET: api/BookedTennisCourt?userId=2
         [HttpGet]
-        public async Task<IActionResult> Get(int? tennisCourtId)
+        public async Task<IActionResult> Get(int? tennisCourtId, int? userId)
         {
             using (IDbConnection conn = Connection)
             {
-                string sql = "SELECT * FROM BookedTennisCourt";
+
+                //string sql = "SELECT * FROM BookedTennisCourt";
+
+                Dictionary<int, BookedTennisCourt> userCourt = new Dictionary<int, BookedTennisCourt>();
+
+                string sql = @"SELECT
+                                        btc.Id,
+                                        btc.UserId,
+                                        btc.TennisCourtId,
+                                        btc.StartTime,
+                                        btc.EndTime,
+                                        tc.Id,
+                                        tc.Surface,
+                                        tc.Name
+                                FROM BookedTennisCourt btc
+                                JOIN TennisCourt tc ON tc.Id = btc.TennisCourtId";
 
                 if (tennisCourtId != null)
                 {
                     sql += $" WHERE TennisCourtId = {tennisCourtId}";
                 }
-                var allBookedTennisCourts = await Connection.QueryAsync<BookedTennisCourt>(sql);
+                else if (userId != null)
+                {
+                    sql += $" WHERE UserId = {userId}";
+                }
+
+                var allBookedTennisCourts = await conn.QueryAsync<BookedTennisCourt, TennisCourt, BookedTennisCourt>(sql, 
+                    (bookedTennisCourt, tennisCourt) =>
+                {
+                    if (!userCourt.ContainsKey(bookedTennisCourt.Id))
+                    {
+                        // Create an entry in the dictionary
+                        userCourt[bookedTennisCourt.Id] = bookedTennisCourt;
+                    }
+                    userCourt[bookedTennisCourt.Id].tennisCourt = (tennisCourt);
+
+                    return bookedTennisCourt;
+                });
                 return Ok(allBookedTennisCourts);
             }
         }
 
         // GET: api/BookedTennisCourt/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetBookedTennisCourt")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
             using (IDbConnection conn = Connection)
