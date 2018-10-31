@@ -37,9 +37,6 @@ export default class Calendar extends Component {
       endDateClone = `${fullEndDate} ${fullEndTime}`;
     }
 
-    console.log(startDateClone);
-    console.log(endDateClone);
-
     let bookedTennisCourtTable = {
       UserId: 1,
       TennisCourtId: this.props.tennisCourtId,
@@ -49,9 +46,7 @@ export default class Calendar extends Component {
 
     console.log(bookedTennisCourtTable);
 
-    APIManager.bookTennisCourt(bookedTennisCourtTable).then(court => {
-      console.log(court);
-    });
+    APIManager.bookTennisCourt(bookedTennisCourtTable).then();
   }
 
   render() {
@@ -59,9 +54,9 @@ export default class Calendar extends Component {
 
       <React.Fragment>
 
-        <button onClick={this.bookTimeSlot}>Hello1</button>
+        {/* <button onClick={this.bookTimeSlot}>Hello1</button> */}
 
-        {/* <BookButton onClick={this.bookTimeSlot} /> */}
+        <BookButton bookTimeSlot={this.bookTimeSlot} />
 
         <BackToTopButton />
 

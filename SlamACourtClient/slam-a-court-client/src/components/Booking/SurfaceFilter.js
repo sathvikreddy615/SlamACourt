@@ -92,8 +92,9 @@ class CourtFilters extends React.Component {
           })
         }
       })
-      APIManager.getBookedTennisCourts(courtId).then(bookedCourtData => {
+      APIManager.getBookedTennisCourtsByTennisCourtId(courtId).then(bookedCourtData => {
         bookedCourtData.forEach(courts => {
+          console.log(courts);
           // let extractStartHour = courts.startTime.slice(11, 13);
           // let extractEndHour = courts.endTime.slice(11, 13);
 

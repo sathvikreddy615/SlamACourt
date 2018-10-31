@@ -3,8 +3,12 @@ export default class APIManager {
       return fetch(`https://localhost:5001/api/${table}`)
       .then(e => e.json());
     };
-    static getBookedTennisCourts = tcId => {
+    static getBookedTennisCourtsByTennisCourtId = tcId => {
       return fetch(`https://localhost:5001/api/bookedtenniscourt?tennisCourtId=${tcId}`)
+      .then(e => e.json());
+    };
+    static getBookedTennisCourtsByUserId = uId => {
+      return fetch(`https://localhost:5001/api/bookedtenniscourt?userId=${uId}`)
       .then(e => e.json());
     };
     static bookTennisCourt = data => {
@@ -19,6 +23,11 @@ export default class APIManager {
         },
         body: JSON.stringify(data)
       }).then(e => e.json());
+    };
+    static deleteBookedTennisCourt = id => {
+      return fetch(`https://localhost:5001/api/bookedtenniscourt/${id}`, {
+        method: "DELETE"
+      });
     };
     // static addData = (table, data) => {
     //   return fetch(`http://localhost:5000//${table}`, {
