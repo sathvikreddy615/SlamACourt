@@ -40,10 +40,18 @@ export default class Calendar extends Component {
     console.log(startDateClone);
     console.log(endDateClone);
 
-    // this.setState({
-    //   startDate: startDateClone,
-    //   endDate: endDateClone
-    // })
+    let bookedTennisCourtTable = {
+      UserId: 1,
+      TennisCourtId: this.props.tennisCourtId,
+      StartTime: startDateClone,
+      EndTime: endDateClone
+    }
+
+    console.log(bookedTennisCourtTable);
+
+    APIManager.bookTennisCourt(bookedTennisCourtTable).then(court => {
+      console.log(court);
+    });
   }
 
   render() {
@@ -51,9 +59,9 @@ export default class Calendar extends Component {
 
       <React.Fragment>
 
-        {/* <button onClick={this.bookTimeSlot}>Hello1</button> */}
+        <button onClick={this.bookTimeSlot}>Hello1</button>
 
-        <BookButton onClick={this.bookTimeSlot} />
+        {/* <BookButton onClick={this.bookTimeSlot} /> */}
 
         <BackToTopButton />
 

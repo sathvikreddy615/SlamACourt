@@ -7,6 +7,19 @@ export default class APIManager {
       return fetch(`https://localhost:5001/api/bookedtenniscourt?tennisCourtId=${tcId}`)
       .then(e => e.json());
     };
+    static bookTennisCourt = data => {
+      return fetch(`https://localhost:5001/api/bookedtenniscourt`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          // "Access-Control-Allow-Origin":  "http://localhost:3000",
+          // "Access-Control-Allow-Methods": "POST",
+          // "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        },
+        body: JSON.stringify(data)
+      }).then(e => e.json());
+    };
     // static addData = (table, data) => {
     //   return fetch(`http://localhost:5000//${table}`, {
     //     method: "POST",

@@ -30,6 +30,7 @@ class CourtFilters extends React.Component {
     userSelectedSurface: "",
     tennisCourtNames: [],
     userSelectedCourt: "",
+    tennisCourtId: 0,
     timeSlot: []
     // userSelectedCourtData: []
   };
@@ -86,6 +87,9 @@ class CourtFilters extends React.Component {
       arrOfTennisCourts.forEach(tennisCourt => {
         if (this.state.userSelectedCourt === tennisCourt.name) {
           courtId = tennisCourt.id;
+          this.setState({
+            tennisCourtId: courtId
+          })
         }
       })
       APIManager.getBookedTennisCourts(courtId).then(bookedCourtData => {
@@ -189,7 +193,7 @@ class CourtFilters extends React.Component {
           Show Availability
         </Button>
 
-        <Calendar timeSlot={this.state.timeSlot} />
+        <Calendar tennisCourtId={this.state.tennisCourtId} timeSlot={this.state.timeSlot} />
       </React.Fragment>
     );
   }
