@@ -52,7 +52,11 @@ export default class Manage extends Component {
             courtToBeDeletedId: eventTargetIdInt
         })
 
-        // APIManager.deleteBookedTennisCourt(eventTargetIdInt).then();
+        APIManager.deleteBookedTennisCourt(eventTargetIdInt).then();
+
+        alert("Your tennis court has been cancelled!");
+
+        window.location.reload(true);
     }
 
     render() {

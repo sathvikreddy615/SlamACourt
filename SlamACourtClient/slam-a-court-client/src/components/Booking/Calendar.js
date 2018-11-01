@@ -53,13 +53,16 @@ export default class Calendar extends Component {
     return (
 
       <React.Fragment>
+        <br />
+        <br />
+        <br />
 
         <BookButton bookTimeSlot={this.bookTimeSlot} />
 
         <BackToTopButton />
 
         <ReactTimeslotCalendar timeslots={[
-          ['9', '10'], // 09:00 AM - 10:00 AM
+          // ['9', '10'], // 09:00 AM - 10:00 AM
           ['10', '11'], // 10:00 AM - 11:00 AM
           ['11', '12'], // 11:00 AM - 12:00 AM
           ['12', '13'], // 12:00 AM - 1:00 PM

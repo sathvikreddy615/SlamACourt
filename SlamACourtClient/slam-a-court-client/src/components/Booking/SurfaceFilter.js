@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import APIManager from "../APIManager";
-import Calendar from "./Calendar";
+// import Calendar from "./Calendar";
 import moment from 'moment';
 
 const styles = theme => ({
@@ -138,6 +138,9 @@ class CourtFilters extends React.Component {
         this.setState({
           timeSlot: timeSlotClone
         })
+      }).then(() => {
+        // this.props.history.push("/calendar");
+        window.location = 'http://localhost:3000/calendar';
       })
     }) 
   };
@@ -194,7 +197,7 @@ class CourtFilters extends React.Component {
           Show Availability
         </Button>
 
-        <Calendar tennisCourtId={this.state.tennisCourtId} timeSlot={this.state.timeSlot} />
+        {/* <Calendar tennisCourtId={this.state.tennisCourtId} timeSlot={this.state.timeSlot} /> */}
       </React.Fragment>
     );
   }
