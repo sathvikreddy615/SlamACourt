@@ -54,8 +54,6 @@ export default class Calendar extends Component {
 
       <React.Fragment>
 
-        {/* <button onClick={this.bookTimeSlot}>Hello1</button> */}
-
         <BookButton bookTimeSlot={this.bookTimeSlot} />
 
         <BackToTopButton />
