@@ -10,7 +10,7 @@ export default class APIManager {
     }).then(e => e.json());
   };
   static getUserByEmail = email => {
-    return fetch(`https://localhost:5001/api/user?email=${email}`)
+    return fetch(`https://localhost:5001/api/user?email='${email}'`)
       .then(e => e.json());
   };
   static getAllData = table => {

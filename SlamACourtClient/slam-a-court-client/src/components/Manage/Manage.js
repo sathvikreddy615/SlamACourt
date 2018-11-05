@@ -7,14 +7,15 @@ import Modal from "./Modal";
 import CourtTable from "./CourtTable";
 
 export default class Manage extends Component {
-
     state = {
         courtsDetails: [],
         courtToBeDeletedId: 0
     };
 
     getBookedCourtsByUser = () => {
-        APIManager.getBookedTennisCourtsByUserId(1).then(bookedCourtsArr => {
+        let localUser = JSON.parse(localStorage.getItem("credentials"));
+
+        APIManager.getBookedTennisCourtsByUserId(localUser.userId).then(bookedCourtsArr => {
             let courtsDetailsClone = this.state.courtsDetails;
 
             bookedCourtsArr.forEach(bookedCourt => {
@@ -26,14 +27,19 @@ export default class Manage extends Component {
 
                 let reformatStartDate = `${extractStartYear}-${extractStartMonth}-${extractStartDay}, ${extractStartTime}`;
 
-                let startFullDate = moment(reformatStartDate).format('MMMM Do YYYY, h:mm:ss a');
+                let displayStartDate = moment(reformatStartDate).format('llll');
+                let currentDate = moment().format();
 
-                let courtInfo = {};
-                courtInfo['bookedTennisCourtId'] = bookedCourt.id;
-                courtInfo['date'] = startFullDate;
-                courtInfo['court'] = bookedCourt.tennisCourt.name;
-                courtInfo['surface'] = bookedCourt.tennisCourt.surface;
-                courtsDetailsClone.push(courtInfo);
+                if (currentDate < bookedCourt.startTime) {
+                    let courtInfo = {};
+                    courtInfo['bookedTennisCourtId'] = bookedCourt.id;
+                    courtInfo['date'] = displayStartDate;
+                    courtInfo['court'] = bookedCourt.tennisCourt.name;
+                    courtInfo['surface'] = bookedCourt.tennisCourt.surface;
+                    courtsDetailsClone.push(courtInfo);
+                } else {
+                    APIManager.deleteBookedTennisCourt(bookedCourt.id).then();
+                }
             });
             this.setState({
                 courtsDetails: courtsDetailsClone,
@@ -63,10 +69,13 @@ export default class Manage extends Component {
         return (
             <React.Fragment>
                 <br />
-                <br />
-                <br />
-                <Modal deleteBookedCourt={this.deleteBookedCourt}/>
-                <CourtTable deleteBookedCourt={this.deleteBookedCourt} courtsDetails={this.state.courtsDetails} />
+                {/* <br /> */}
+                {/* <br /> */}
+                {/* <Modal deleteBookedCourt={this.deleteBookedCourt} /> */}
+                <CourtTable
+                    deleteBookedCourt={this.deleteBookedCourt}
+                    courtsDetails={this.state.courtsDetails}
+                />
             </React.Fragment>
         )
     }

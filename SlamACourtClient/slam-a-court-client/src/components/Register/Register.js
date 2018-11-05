@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import APIManager from "../APIManager";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
     container: {
@@ -76,47 +77,91 @@ class TextFields extends React.Component {
 
         return (
             <React.Fragment>
-                <br />
-                <br />
-                <br />
-                <br />
-                <form onSubmit={this.handleRegister} className={classes.container} noValidate autoComplete="off">
-                    <TextField
-                        id="registerName"
-                        label="Name"
-                        className={classes.textField}
-                        type="text"
-                        autoComplete="current-name"
-                        margin="normal"
-                        onChange={this.handleFieldChange('name')}
-                    />
-                    <TextField
-                        id="registerEmail"
-                        label="Email"
-                        className={classes.textField}
-                        type="email"
-                        autoComplete="current-email"
-                        margin="normal"
-                        onChange={this.handleFieldChange('email')}
-                    />
-                    <TextField
-                        id="registerPassword"
-                        label="Password"
-                        className={classes.textField}
-                        type="password"
-                        autoComplete="current-password"
-                        margin="normal"
-                        onChange={this.handleFieldChange('password')}
-                    />
+                <Grid container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: '100vh' }}
+                >
+                    <form onSubmit={this.handleRegister} className={classes.container} noValidate autoComplete="off">
+                        <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                        >
+                            <TextField
+                                id="registerName"
+                                label="Name"
+                                className={classes.textField}
+                                type="text"
+                                autoComplete="current-name"
+                                margin="normal"
+                                onChange={this.handleFieldChange('name')}
+                            />
+                        </Grid>
+                        <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                        >
+                            <TextField
+                                id="registerEmail"
+                                label="Email"
+                                className={classes.textField}
+                                type="email"
+                                autoComplete="current-email"
+                                margin="normal"
+                                onChange={this.handleFieldChange('email')}
+                            />
+                        </Grid>
+                        <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                        >
+                            <TextField
+                                id="registerPassword"
+                                label="Password"
+                                className={classes.textField}
+                                type="password"
+                                autoComplete="current-password"
+                                margin="normal"
+                                onChange={this.handleFieldChange('password')}
+                            />
+                        </Grid>
 
-                    <Button type="submit" id="registerBtn" variant="contained" color="primary" className={classes.button}>
-                        Register
+                        <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                        >
+
+                            <Button type="submit" id="registerBtn" variant="contained" color="primary" className={classes.button}>
+                                Register
                     </Button>
-                </form>
 
-                <Button type="submit" id="backToLoginBtn" variant="contained" color="primary" className={classes.button}>
-                    <Link to={{ pathname: "/login" }}>Back to Login</Link>
-                </Button>
+                        </Grid>
+                    </form>
+
+                    <Grid container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justify="center"
+                    >
+
+                        <Button type="submit" id="backToLoginBtn" variant="contained" color="primary" className={classes.button}>
+                            <Link to={{ pathname: "/login" }}>Back to Login</Link>
+                        </Button>
+
+                    </Grid>
+
+                </Grid>
             </React.Fragment>
         );
     }

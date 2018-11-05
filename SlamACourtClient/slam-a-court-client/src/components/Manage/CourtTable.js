@@ -33,10 +33,10 @@ function SimpleTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Cancel</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Court</TableCell>
-            <TableCell>Surface</TableCell>
+            <TableCell><b>Cancel</b></TableCell>
+            <TableCell><b>Date</b></TableCell>
+            <TableCell><b>Court</b></TableCell>
+            <TableCell><b>Surface</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
