@@ -132,6 +132,7 @@ export default class Booking extends Component {
             timeSlot={this.state.timeSlot}
             tennisCourtId={this.state.tennisCourtId}
             userSelectedCourt={this.state.userSelectedCourt}
+            partners={this.state.partners}
           />
         </React.Fragment>
       )

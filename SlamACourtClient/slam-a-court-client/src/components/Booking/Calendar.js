@@ -6,6 +6,7 @@ import BookButton from "./BookButton";
 import ScrollToTop from "react-scroll-up";
 import Button from '@material-ui/core/Button';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
+import CourtModal from "./CourtModal";
 
 // const styles = theme => ({
 //   button: {
@@ -19,12 +20,42 @@ import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 export default class Calendar extends Component {
   state = {
     startDate: "",
-    endDate: ""
+    endDate: "",
+    openModal: false,
+    partners: []
   };
+
+  getPartnersInfo = () => {
+    let localUser = JSON.parse(localStorage.getItem("credentials"));
+    let partnersClone = new Array;
+
+    APIManager.getAllData("user").then(arrOfUsers => {
+      arrOfUsers.forEach(user => {
+        if (user.id != localUser.userId) {
+          partnersClone.push(user);
+        }
+      });
+      console.log(partnersClone)
+      this.setState({
+        partners: partnersClone
+      })
+    })
+  }
+
+  handleOpen = () => {
+    this.setState({ openModal: true });
+  };
+
+  handleClose = () => {
+    this.setState({ openModal: false });
+  };
+
+  componentDidMount = () => {
+    this.getPartnersInfo();
+  }
 
   bookTimeSlot = () => {
     let localUser = JSON.parse(localStorage.getItem("credentials"));
-    console.log(localUser.userId);
     let startDateClone = "";
     let endDateClone = "";
 
@@ -63,7 +94,6 @@ export default class Calendar extends Component {
       APIManager.bookTennisCourt(bookedTennisCourtTable).then(() => {
         alert(`Court ${this.props.userSelectedCourt} is booked for ${alertCourtDate}!`);
         window.location = "http://localhost:3000/manage-courts";
-        // this.props.history.push("manage-courts");
       });
     } else {
       alert("Please select a time slot!");
@@ -72,7 +102,6 @@ export default class Calendar extends Component {
   }
 
   render() {
-    // const { classes } = props;
     const upStyle = {
       margin: 0,
       top: 'auto',
@@ -80,20 +109,38 @@ export default class Calendar extends Component {
       bottom: 20,
       left: 'auto',
       position: 'fixed',
-  };
-    return (
+    };
 
-      <React.Fragment>
+    if (this.state.openModal === true) {
+      return (
+        <React.Fragment>
+          <CourtModal partners={this.state.partners} openModal={this.state.openModal} handleOpen={this.handleOpen} />
+          <ReactTimeslotCalendar timeslots={[
+          ['10', '11'], // 10:00 AM - 11:00 AM
+          ['11', '12'], // 11:00 AM - 12:00 AM
+          ['12', '13'], // 12:00 AM - 1:00 PM
+          ['13', '14'], // 1:00 PM - 2:00 PM
+          ['14', '15'], // 2:00 PM - 3:00 PM
+          ['15', '16'] // 3:00 PM - 4:00 PM
+        ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
+          initialDate={moment().format()}
+        />
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
         <br />
         <br />
         <br />
 
-        <BookButton bookTimeSlot={this.bookTimeSlot} />
+        {/* <BookButton bookTimeSlot={this.bookTimeSlot} /> */}
+        <BookButton onClick={this.getPartnersInfo} handleOpen={this.handleOpen} />
 
         <ScrollToTop showUnder={160}>
           <Button style={upStyle} mini variant="fab" color="secondary" aria-label="Add">
-                <UpIcon />
-            </Button>
+            <UpIcon />
+          </Button>
         </ScrollToTop>
 
         <ReactTimeslotCalendar timeslots={[
@@ -106,8 +153,8 @@ export default class Calendar extends Component {
         ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
           initialDate={moment().format()}
         />
-
       </React.Fragment>
-    );
+      )
+    }
   }
 }
