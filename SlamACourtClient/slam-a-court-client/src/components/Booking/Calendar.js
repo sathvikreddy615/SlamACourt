@@ -22,25 +22,25 @@ export default class Calendar extends Component {
     startDate: "",
     endDate: "",
     openModal: false,
-    partners: []
+    bookedTennisCourtId: 0
   };
 
-  getPartnersInfo = () => {
-    let localUser = JSON.parse(localStorage.getItem("credentials"));
-    let partnersClone = new Array;
+  // getPartnersInfo = () => {
+  //   let localUser = JSON.parse(localStorage.getItem("credentials"));
+  //   let partnersClone = new Array;
 
-    APIManager.getAllData("user").then(arrOfUsers => {
-      arrOfUsers.forEach(user => {
-        if (user.id != localUser.userId) {
-          partnersClone.push(user);
-        }
-      });
-      console.log(partnersClone)
-      this.setState({
-        partners: partnersClone
-      })
-    })
-  }
+  //   APIManager.getAllData("user").then(arrOfUsers => {
+  //     arrOfUsers.forEach(user => {
+  //       if (user.id != localUser.userId) {
+  //         partnersClone.push(user);
+  //       }
+  //     });
+  //     console.log(partnersClone)
+  //     this.setState({
+  //       partners: partnersClone
+  //     })
+  //   })
+  // }
 
   handleOpen = () => {
     this.setState({ openModal: true });
@@ -51,10 +51,12 @@ export default class Calendar extends Component {
   };
 
   componentDidMount = () => {
-    this.getPartnersInfo();
+    // this.getPartnersInfo();
+    console.log(this.props.names);
   }
 
   bookTimeSlot = () => {
+
     let localUser = JSON.parse(localStorage.getItem("credentials"));
     let startDateClone = "";
     let endDateClone = "";
@@ -85,20 +87,27 @@ export default class Calendar extends Component {
       UserId: localUser.userId,
       TennisCourtId: this.props.tennisCourtId,
       StartTime: startDateClone,
-      EndTime: endDateClone
+      EndTime: endDateClone,
+      Partners: ""
     }
+
+    let bookedTennisCourtIdClone = 0;
 
     if (startDateClone) {
       let alertCourtDate = moment(startDateClone).format('LLLL');
 
-      APIManager.bookTennisCourt(bookedTennisCourtTable).then(() => {
-        alert(`Court ${this.props.userSelectedCourt} is booked for ${alertCourtDate}!`);
-        window.location = "http://localhost:3000/manage-courts";
+      APIManager.bookTennisCourt(bookedTennisCourtTable).then(court => {
+        bookedTennisCourtIdClone = court.id;
+        console.log(bookedTennisCourtIdClone);
+        this.setState({
+          bookedTennisCourtId: bookedTennisCourtIdClone
+        })
+        // alert(`Court ${this.props.userSelectedCourt} is booked for ${alertCourtDate}!`);
+        // window.location = "http://localhost:3000/manage-courts";
       });
     } else {
       alert("Please select a time slot!");
     }
-
   }
 
   render() {
@@ -114,7 +123,7 @@ export default class Calendar extends Component {
     if (this.state.openModal === true) {
       return (
         <React.Fragment>
-          <CourtModal partners={this.state.partners} openModal={this.state.openModal} handleOpen={this.handleOpen} />
+          <CourtModal bookedTennisCourtId={this.state.bookedTennisCourtId} names={this.props.names} openModal={this.state.openModal} handleOpen={this.handleOpen} />
           <ReactTimeslotCalendar timeslots={[
           ['10', '11'], // 10:00 AM - 11:00 AM
           ['11', '12'], // 11:00 AM - 12:00 AM
@@ -135,7 +144,7 @@ export default class Calendar extends Component {
         <br />
 
         {/* <BookButton bookTimeSlot={this.bookTimeSlot} /> */}
-        <BookButton onClick={this.getPartnersInfo} handleOpen={this.handleOpen} />
+        <BookButton bookTimeSlot={this.bookTimeSlot} handleOpen={this.handleOpen} />
 
         <ScrollToTop showUnder={160}>
           <Button style={upStyle} mini variant="fab" color="secondary" aria-label="Add">

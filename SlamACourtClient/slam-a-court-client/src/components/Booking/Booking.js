@@ -10,8 +10,8 @@ export default class Booking extends Component {
     tennisCourtNames: [],
     userSelectedCourt: "",
     tennisCourtId: 0,
-    timeSlot: []
-    // userSelectedCourtData: []
+    timeSlot: [],
+    names: []
   };
 
   renderCourtSelectionBySurface = () => {
@@ -107,6 +107,20 @@ export default class Booking extends Component {
         })
       });
     })
+
+    let localUser = JSON.parse(localStorage.getItem("credentials"));
+    let namesClone = new Array;
+
+    APIManager.getAllData("user").then(arrOfUsers => {
+      arrOfUsers.forEach(user => {
+        if (user.id != localUser.userId) {
+          namesClone.push(user.name);
+        }
+      });
+      this.setState({
+        names: namesClone
+      })
+    })
   };
 
   renderCalendar = () =>
@@ -132,7 +146,7 @@ export default class Booking extends Component {
             timeSlot={this.state.timeSlot}
             tennisCourtId={this.state.tennisCourtId}
             userSelectedCourt={this.state.userSelectedCourt}
-            partners={this.state.partners}
+            names={this.state.names}
           />
         </React.Fragment>
       )

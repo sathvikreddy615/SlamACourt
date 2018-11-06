@@ -6,6 +6,8 @@ import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import BookButton from "./BookButton";
 import PartnerSelection from "./PartnerSelection";
+import APIManager from "../APIManager";
+import moment from 'moment';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -35,8 +37,13 @@ const styles = theme => ({
 
 class SimpleModal extends React.Component {
     state = {
-        partners: this.props.partners
+
     }
+
+    // componentDidUpdate = () => {
+    //     console.log(this.props.bookedTennisCourtId)
+    // }
+
     render() {
         const { classes } = this.props;
 
@@ -50,11 +57,13 @@ class SimpleModal extends React.Component {
                 >
                     <div style={getModalStyle()} className={classes.paper}>
                         <Typography variant="h6" id="modal-title">
-                            <PartnerSelection partners={this.state.partners} />
+                            <PartnerSelection bookedTennisCourtId={this.props.bookedTennisCourtId} names={this.props.names} name={this.state.name} />
                         </Typography>
                         <Typography variant="subtitle1" id="simple-modal-description">
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+                            {/* <Button onClick={this.addPartners} variant="contained" color="primary" className={this.button}>
+                                Confirm
+                            </Button> */}
+                        </Typography>
                         <SimpleModalWrapped />
                     </div>
                 </Modal>

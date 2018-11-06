@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import APIManager from "../APIManager";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -58,22 +60,45 @@ function getStyles(name, that) {
 class MultipleSelect extends React.Component {
   state = {
     name: [],
-    names: []
+    names: this.props.names
   };
 
-  handleChange = event => {
-    this.setState({ name: event.target.value });
+  handleChange = e => {
+    // let userSelectedPartners = document.getElementsByClassName("MuiSelect-select-366");
+    // for (let i = 0; i < userSelected)
+    // console.log(userSelectedPartners);
+
+    this.setState({
+      name: e.target.value
+    });
   };
 
-  componentDidMount = () => {
-      let namesClone = new Array;
+  // componentDidUpdate = () => {
+  //   console.log(this.props.bookedTennisCourtId);
+  // }
 
-      this.props.partners.forEach(partner => {
-          namesClone.push(partner.name);
+  addPartners = () => {
+    APIManager.getBookedTennisCourtById(this.props.bookedTennisCourtId).then(court => {
+
+      // let partners = this.state.name.toString();
+      let partnersArr = this.state.name;
+      let partners = partnersArr.join(', ');
+
+      let bookedTennisCourtTable = {
+        UserId: court.userId,
+        TennisCourtId: court.tennisCourtId,
+        StartTime: court.startTime,
+        EndTime: court.endTime,
+        Partners: partners
+      }
+
+      console.log(bookedTennisCourtTable);
+
+      APIManager.addPartners(this.props.bookedTennisCourtId, bookedTennisCourtTable).then(() => {
+         window.location = "http://localhost:3000/manage-courts";
       });
-      this.setState({
-          names: namesClone
-      })
+
+    })
   }
 
   render() {
@@ -82,7 +107,7 @@ class MultipleSelect extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
+          <InputLabel htmlFor="select-multiple-checkbox">Partners</InputLabel>
           <Select
             multiple
             value={this.state.name}
@@ -98,6 +123,10 @@ class MultipleSelect extends React.Component {
               </MenuItem>
             ))}
           </Select>
+
+          <Button onClick={this.addPartners} variant="contained" color="primary" className={this.button}>
+            Confirm
+          </Button>
         </FormControl>
       </div>
     );

@@ -5,6 +5,7 @@ import APIManager from "../APIManager";
 import moment from 'moment';
 import Modal from "./Modal";
 import CourtTable from "./CourtTable";
+import CourtExpansion from "./CourtExpansion";
 
 export default class Manage extends Component {
     state = {
@@ -36,6 +37,7 @@ export default class Manage extends Component {
                     courtInfo['date'] = displayStartDate;
                     courtInfo['court'] = bookedCourt.tennisCourt.name;
                     courtInfo['surface'] = bookedCourt.tennisCourt.surface;
+                    courtInfo['partners'] = bookedCourt.partners;
                     courtsDetailsClone.push(courtInfo);
                 } else {
                     APIManager.deleteBookedTennisCourt(bookedCourt.id).then();
@@ -69,13 +71,20 @@ export default class Manage extends Component {
         return (
             <React.Fragment>
                 <br />
+                <br />
+                <br />
                 {/* <br /> */}
                 {/* <br /> */}
                 {/* <Modal deleteBookedCourt={this.deleteBookedCourt} /> */}
-                <CourtTable
+
+                <CourtExpansion 
+                    deleteBookedCourt={this.deleteBookedCourt}
+                    courtsDetails={this.state.courtsDetails} 
+                />
+                {/* <CourtTable
                     deleteBookedCourt={this.deleteBookedCourt}
                     courtsDetails={this.state.courtsDetails}
-                />
+                /> */}
             </React.Fragment>
         )
     }
