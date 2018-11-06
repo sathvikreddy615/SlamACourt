@@ -12,12 +12,13 @@ namespace SlamACourt.Models
         public int UserId { get; set; }
         public int TennisCourtId { get; set; }
 
-        //[Range(typeof(TimeSpan), "08:00", "20:00")]
         public DateTime StartTime { get; set; }
 
-        //[Range(typeof(TimeSpan), "08:00", "20:00")]
+        public string Partners { get; set; }
+
         public DateTime EndTime { get; set; }
 
         public TennisCourt tennisCourt { get; set; }
+
     }
 }

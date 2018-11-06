@@ -53,6 +53,7 @@ namespace SlamACourt.Models
                                         btc.TennisCourtId,
                                         btc.StartTime,
                                         btc.EndTime,
+                                        btc.Partners,
                                         tc.Id,
                                         tc.Surface,
                                         tc.Name
@@ -101,7 +102,7 @@ namespace SlamACourt.Models
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookedTennisCourt bookedTennisCourt)
         {
-            string sql = $@"INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime) VALUES ('{bookedTennisCourt.UserId}', '{bookedTennisCourt.TennisCourtId}', '{bookedTennisCourt.StartTime}', '{bookedTennisCourt.EndTime}')
+            string sql = $@"INSERT INTO BookedTennisCourt (UserId, TennisCourtId, StartTime, EndTime, Partners) VALUES ('{bookedTennisCourt.UserId}', '{bookedTennisCourt.TennisCourtId}', '{bookedTennisCourt.StartTime}', '{bookedTennisCourt.EndTime}', '{bookedTennisCourt.Partners}')
             select MAX(Id) from BookedTennisCourt";
 
             using (IDbConnection conn = Connection)
@@ -112,10 +113,42 @@ namespace SlamACourt.Models
             }
         }
 
-        // PUT: api/BookedTennisCourt/5
+        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] BookedTennisCourt bookedTennisCourt)
         {
+            string sql = $@"
+            UPDATE BookedTennisCourt
+            SET UserId = '{bookedTennisCourt.UserId}',
+                TennisCourtId = '{bookedTennisCourt.TennisCourtId}',
+                StartTime = '{bookedTennisCourt.StartTime}',
+                EndTime = '{bookedTennisCourt.EndTime}',
+                Partners = '{bookedTennisCourt.Partners}'
+            WHERE Id = {id}";
+
+            try
+            {
+                using (IDbConnection conn = Connection)
+                {
+                    int rowsAffected = await conn.ExecuteAsync(sql);
+                    if (rowsAffected > 0)
+                    {
+                        return new StatusCodeResult(StatusCodes.Status204NoContent);
+                    }
+                    throw new Exception("No rows affected");
+                }
+            }
+            catch (Exception)
+            {
+                if (!BookedTennisCourtExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         // DELETE: api/BookedTennisCourt/5
@@ -132,6 +165,15 @@ namespace SlamACourt.Models
                     return new StatusCodeResult(StatusCodes.Status204NoContent);
                 }
                 throw new Exception("No rows affected");
+            }
+        }
+
+        private bool BookedTennisCourtExists(int id)
+        {
+            string sql = $"SELECT Id, UserId, TennisCourtId, StartTime, EndTime, Partners FROM BookedTennisCourt WHERE Id = {id}";
+            using (IDbConnection conn = Connection)
+            {
+                return conn.Query<BookedTennisCourt>(sql).Count() > 0;
             }
         }
 

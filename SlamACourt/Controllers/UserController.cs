@@ -35,11 +35,16 @@ namespace SlamACourt.Models
 
         // GET: api/User
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string email)
         {
             using (IDbConnection conn = Connection)
             {
                 string sql = "SELECT * FROM [User]";
+
+                if (email != null)
+                {
+                    sql += $" WHERE Email = {email}";
+                }
 
                 var allUsers = await Connection.QueryAsync<User>(sql);
                 return Ok(allUsers);
@@ -47,7 +52,7 @@ namespace SlamACourt.Models
         }
 
         // GET: api/User/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUserById")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
             using (IDbConnection conn = Connection)
@@ -59,20 +64,20 @@ namespace SlamACourt.Models
             }
         }
 
-        // POST: api/User
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] User user)
-        //{
-        //    string sql = $@"INSERT INTO [User] (Name, Email, Password) VALUES ('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}')
-        //    select MAX(Id) from [User]";
+       // POST: api/User
+       [HttpPost]
+        public async Task<IActionResult> Post([FromBody] User user)
+        {
+            string sql = $@"INSERT INTO [User] (Name, Email, Password) VALUES ('{user.Name}', '{user.Email}', '{user.Password}')
+            select MAX(Id) from [User]";
 
-        //    using (IDbConnection conn = Connection)
-        //    {
-        //        var newUserId = (await conn.QueryAsync<int>(sql)).Single();
-        //        user.Id = newUserId;
-        //        return CreatedAtRoute("GetUserTennisCourt", new { id = newUserId }, user);
-        //    }
-        //}
+            using (IDbConnection conn = Connection)
+            {
+                var newUserId = (await conn.QueryAsync<int>(sql)).Single();
+                user.Id = newUserId;
+                return CreatedAtRoute("GetUserById", new { id = newUserId }, user);
+            }
+        }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
