@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
+import Navbar from "../Navbar/Navbar";
 import APIManager from "../APIManager";
 import moment from 'moment';
-import Modal from "./Modal";
-import CourtTable from "./CourtTable";
 import CourtExpansion from "./CourtExpansion";
+import Grid from '@material-ui/core/Grid';
+import "./Manage.css";
+
 
 export default class Manage extends Component {
     state = {
@@ -62,29 +62,24 @@ export default class Manage extends Component {
 
         APIManager.deleteBookedTennisCourt(eventTargetIdInt).then();
 
-        alert("Your tennis court has been cancelled!");
-
         window.location.reload(true);
     }
 
     render() {
         return (
             <React.Fragment>
-                <br />
-                <br />
-                <br />
-                {/* <br /> */}
-                {/* <br /> */}
-                {/* <Modal deleteBookedCourt={this.deleteBookedCourt} /> */}
-
-                <CourtExpansion 
-                    deleteBookedCourt={this.deleteBookedCourt}
-                    courtsDetails={this.state.courtsDetails} 
-                />
-                {/* <CourtTable
-                    deleteBookedCourt={this.deleteBookedCourt}
-                    courtsDetails={this.state.courtsDetails}
-                /> */}
+                <Navbar />
+                <Grid
+                    id="manageBackground"
+                    container
+                    spacing={0}
+                    style={{ 'margin-top': '58px' }}
+                >
+                    <CourtExpansion
+                        deleteBookedCourt={this.deleteBookedCourt}
+                        courtsDetails={this.state.courtsDetails}
+                    />
+                </Grid>
             </React.Fragment>
         )
     }

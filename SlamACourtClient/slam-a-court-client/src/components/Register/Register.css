@@ -1,0 +1,19 @@
+#registerBackground {
+    background-image: url("https://s3.amazonaws.com/slam-a-court/images/court4.jpg");
+     /* Full height */
+     height: 100%; 
+
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+#backToLoginBtn {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+#registerEmail {
+    color: white;
+}

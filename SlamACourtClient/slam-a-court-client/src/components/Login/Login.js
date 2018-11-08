@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import APIManager from "../APIManager";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import "./Login.css";
 
 const styles = theme => ({
     container: {
@@ -26,6 +27,12 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+    },
+    root: {
+        background: "white"
+    },
+    input: {
+        color: "white"
     }
 });
 
@@ -74,6 +81,7 @@ class TextFields extends React.Component {
         return (
             <React.Fragment>
                 <Grid
+                    id="loginBackground"
                     container
                     spacing={0}
                     direction="column"
@@ -81,17 +89,22 @@ class TextFields extends React.Component {
                     justify="center"
                     style={{ minHeight: '100vh' }}
                 >
-
-
+                    <Typography variant="h2">
+                        Slam-A-Court
+                    </Typography>
                     <form onSubmit={this.handleLogin} className={classes.container} noValidate autoComplete="off">
                         <Grid container
                             spacing={0}
                             direction="column"
                             alignItems="center"
                             justify="center"
-                            >
+                        >
                             <TextField
-                                id="standard-email-input"
+                                id="login-email-input"
+                                className={classes.root}
+                                InputProps={{
+                                    className: classes.input
+                                }}
                                 label="Email"
                                 className={classes.textField}
                                 type="email"
@@ -107,7 +120,11 @@ class TextFields extends React.Component {
                             justify="center"
                         >
                             <TextField
-                                id="standard-password-input"
+                                id="login-password-input"
+                                className={classes.root}
+                                InputProps={{
+                                    className: classes.input
+                                }}
                                 label="Password"
                                 className={classes.textField}
                                 type="password"
@@ -118,12 +135,15 @@ class TextFields extends React.Component {
                         </Grid>
                         <Grid container
                             spacing={0}
-                            direction="column"
+                            direction="row"
                             alignItems="center"
                             justify="center"
                         >
                             <Button type="submit" id="loginBtn" variant="contained" color="primary" className={classes.button}>
                                 Login
+                            </Button>
+                            <Button variant="contained" color="secondary" className={classes.button}>
+                                <Link id="signUpBtn" to={{ pathname: "/register" }}>Sign up</Link>
                             </Button>
                         </Grid>
                     </form>

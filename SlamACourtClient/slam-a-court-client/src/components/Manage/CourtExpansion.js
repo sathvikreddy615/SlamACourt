@@ -6,8 +6,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     root: {
@@ -21,6 +21,15 @@ const styles = theme => ({
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
+    },
+    addSpace: {
+        display: 'block'
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    button: {
+        margin: theme.spacing.unit,
     },
 });
 
@@ -45,28 +54,25 @@ class ControlledExpansionPanels extends React.Component {
                     return (
                         <ExpansionPanel expanded={expanded === row.bookedTennisCourtId} onChange={this.handleChange(row.bookedTennisCourtId)}>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography className={classes.heading}>{row.court}</Typography>
+                                <Typography className={classes.heading}><b>{row.court}</b></Typography>
                                 <Typography className={classes.secondaryHeading}>{row.date}</Typography>
                             </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
+                            <ExpansionPanelDetails className={classes.addSpace}>
+                                <Typography><b>Court:</b> {row.court}</Typography>
+                                <br />
+                                <Typography><b>Surface:</b> {row.surface}</Typography>
+                                <br />
+                                <Typography><b>Partners:</b> {row.partners}</Typography>
+                                <br />
+                                <Typography><b>Date:</b> {row.date}</Typography>
+                                <br />
                                 <Typography>
-                                    Court: {row.court}
-                                </Typography>
-                                <Typography>
-                                    Surface: {row.surface}
-                                </Typography>
-                                <Typography>
-                                    Partners: {row.partners}
-                                </Typography>
-                                <Typography>
-                                    <IconButton
-                                        value={row.bookedTennisCourtId}
+                                    <Button value={row.bookedTennisCourtId}
                                         id={row.bookedTennisCourtId}
-                                        onClick={this.props.deleteBookedCourt}
-                                        aria-label="Delete"
-                                        className={classes.button}>
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton>
+                                        onClick={this.props.deleteBookedCourt} variant="contained" color="secondary" className={classes.button}>
+                                        Cancel
+                                        <DeleteIcon className={classes.rightIcon} />
+                                    </Button>
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

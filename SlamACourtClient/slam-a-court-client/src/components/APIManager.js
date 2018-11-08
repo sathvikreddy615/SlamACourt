@@ -17,6 +17,10 @@ export default class APIManager {
     return fetch(`https://localhost:5001/api/${table}`)
       .then(e => e.json());
   };
+  static getUserById = id => {
+    return fetch(`https://localhost:5001/api/user/${id}`)
+      .then(e => e.json());
+  };
   static getBookedTennisCourtById = id => {
     return fetch(`https://localhost:5001/api/bookedtenniscourt/${id}`)
       .then(e => e.json());

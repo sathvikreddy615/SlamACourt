@@ -7,26 +7,12 @@ import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 
 export default class ApplicationViews extends Component {
-
-    state = {
-
-    };
-
-    
+    state = {};
 
     isAuthenticated = () =>
         localStorage.getItem("credentials") !== null;
 
     render() {
-        // return (
-        //     <React.Fragment>
-        //         <Route exact path="/book-a-court" component={Booking} />
-        //         <Route exact path="/manage-courts" component={Manage} />
-        //         <Route path="/login" component={Login} />
-        //         <Route path="/register" component={Register} />
-        //         {/* <Route exact path="/calendar" component={Calendar} /> */}
-        //     </React.Fragment>
-        // )
         if (this.isAuthenticated()) {
             return (
                 <React.Fragment>

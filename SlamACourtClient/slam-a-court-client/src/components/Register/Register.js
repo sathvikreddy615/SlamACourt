@@ -7,6 +7,8 @@ import APIManager from "../APIManager";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import "./Register.css";
 
 const styles = theme => ({
     container: {
@@ -26,6 +28,12 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+    },
+    root: {
+        background: "white"
+    },
+    input: {
+        color: "white"
     }
 });
 
@@ -77,13 +85,18 @@ class TextFields extends React.Component {
 
         return (
             <React.Fragment>
-                <Grid container
+                <Grid 
+                    id="registerBackground"
+                    container
                     spacing={0}
                     direction="column"
                     alignItems="center"
                     justify="center"
                     style={{ minHeight: '100vh' }}
                 >
+                    <Typography variant="h2">
+                        Slam-A-Court
+                    </Typography>
                     <form onSubmit={this.handleRegister} className={classes.container} noValidate autoComplete="off">
                         <Grid container
                             spacing={0}
@@ -93,6 +106,10 @@ class TextFields extends React.Component {
                         >
                             <TextField
                                 id="registerName"
+                                className={classes.root}
+                                InputProps={{
+                                    className: classes.input
+                                }}
                                 label="Name"
                                 className={classes.textField}
                                 type="text"
@@ -109,6 +126,10 @@ class TextFields extends React.Component {
                         >
                             <TextField
                                 id="registerEmail"
+                                className={classes.root}
+                                InputProps={{
+                                    className: classes.input
+                                }}
                                 label="Email"
                                 className={classes.textField}
                                 type="email"
@@ -125,6 +146,10 @@ class TextFields extends React.Component {
                         >
                             <TextField
                                 id="registerPassword"
+                                className={classes.root}
+                                InputProps={{
+                                    className: classes.input
+                                }}
                                 label="Password"
                                 className={classes.textField}
                                 type="password"
@@ -136,31 +161,18 @@ class TextFields extends React.Component {
 
                         <Grid container
                             spacing={0}
-                            direction="column"
+                            direction="row"
                             alignItems="center"
                             justify="center"
                         >
-
                             <Button type="submit" id="registerBtn" variant="contained" color="primary" className={classes.button}>
                                 Register
-                    </Button>
-
+                            </Button>
+                            <Button style={{ textDecoration: 'none', color: 'white' }} variant="contained" color="secondary">
+                                <Link id="backToLoginBtn" to={{ pathname: "/login" }}>Back to Login</Link>
+                            </Button>
                         </Grid>
                     </form>
-
-                    <Grid container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justify="center"
-                    >
-
-                        <Button type="submit" id="backToLoginBtn" variant="contained" color="primary" className={classes.button}>
-                            <Link to={{ pathname: "/login" }}>Back to Login</Link>
-                        </Button>
-
-                    </Grid>
-
                 </Grid>
             </React.Fragment>
         );

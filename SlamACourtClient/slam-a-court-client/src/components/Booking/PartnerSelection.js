@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,9 +8,9 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 import APIManager from "../APIManager";
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   root: {
@@ -46,17 +45,6 @@ const MenuProps = {
   },
 };
 
-// const names = [];
-
-function getStyles(name, that) {
-  return {
-    fontWeight:
-      that.state.name.indexOf(name) === -1
-        ? that.props.theme.typography.fontWeightRegular
-        : that.props.theme.typography.fontWeightMedium,
-  };
-}
-
 class MultipleSelect extends React.Component {
   state = {
     name: [],
@@ -64,23 +52,14 @@ class MultipleSelect extends React.Component {
   };
 
   handleChange = e => {
-    // let userSelectedPartners = document.getElementsByClassName("MuiSelect-select-366");
-    // for (let i = 0; i < userSelected)
-    // console.log(userSelectedPartners);
-
     this.setState({
       name: e.target.value
     });
   };
 
-  // componentDidUpdate = () => {
-  //   console.log(this.props.bookedTennisCourtId);
-  // }
-
   addPartners = () => {
     APIManager.getBookedTennisCourtById(this.props.bookedTennisCourtId).then(court => {
 
-      // let partners = this.state.name.toString();
       let partnersArr = this.state.name;
       let partners = partnersArr.join(', ');
 
@@ -91,8 +70,6 @@ class MultipleSelect extends React.Component {
         EndTime: court.endTime,
         Partners: partners
       }
-
-      console.log(bookedTennisCourtTable);
 
       APIManager.addPartners(this.props.bookedTennisCourtId, bookedTennisCourtTable).then(() => {
          window.location = "http://localhost:3000/manage-courts";
@@ -106,6 +83,12 @@ class MultipleSelect extends React.Component {
 
     return (
       <div className={classes.root}>
+      <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                            >
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="select-multiple-checkbox">Partners</InputLabel>
           <Select
@@ -124,10 +107,13 @@ class MultipleSelect extends React.Component {
             ))}
           </Select>
 
+          <br />
+
           <Button onClick={this.addPartners} variant="contained" color="primary" className={this.button}>
             Confirm
           </Button>
         </FormControl>
+        </Grid>
       </div>
     );
   }

@@ -27,9 +27,6 @@ function FloatingActionButtons(props) {
 
     return (
         <div>
-            {/* <Button onClick={props.bookTimeSlot} style={addStyle} mini variant="fab" color="primary" aria-label="Add" className={classes.button}>
-                <AddIcon />
-            </Button> */}
             <Button onClick={function(event){ props.bookTimeSlot(); props.handleOpen()}} style={addStyle} mini variant="fab" color="primary" aria-label="Add" className={classes.button}>
                 <AddIcon />
             </Button>

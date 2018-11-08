@@ -7,40 +7,17 @@ import ScrollToTop from "react-scroll-up";
 import Button from '@material-ui/core/Button';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import CourtModal from "./CourtModal";
-
-// const styles = theme => ({
-//   button: {
-//       margin: theme.spacing.unit,
-//   },
-//   extendedIcon: {
-//       marginRight: theme.spacing.unit,
-//   },
-// });
+import Grid from '@material-ui/core/Grid';
 
 export default class Calendar extends Component {
   state = {
     startDate: "",
     endDate: "",
     openModal: false,
-    bookedTennisCourtId: 0
+    bookedTennisCourtId: 0,
+    userName: ""
+    // timeClicked: false
   };
-
-  // getPartnersInfo = () => {
-  //   let localUser = JSON.parse(localStorage.getItem("credentials"));
-  //   let partnersClone = new Array;
-
-  //   APIManager.getAllData("user").then(arrOfUsers => {
-  //     arrOfUsers.forEach(user => {
-  //       if (user.id != localUser.userId) {
-  //         partnersClone.push(user);
-  //       }
-  //     });
-  //     console.log(partnersClone)
-  //     this.setState({
-  //       partners: partnersClone
-  //     })
-  //   })
-  // }
 
   handleOpen = () => {
     this.setState({ openModal: true });
@@ -50,13 +27,34 @@ export default class Calendar extends Component {
     this.setState({ openModal: false });
   };
 
-  componentDidMount = () => {
-    // this.getPartnersInfo();
-    console.log(this.props.names);
-  }
+  // timeSlotClicked = () => {
+  //   let startDateClone = "";
 
-  bookTimeSlot = () => {
+  //   let selectedStartDateInput = document.getElementsByName("tsc-startDate");
 
+  //   for (let i = 0; i < selectedStartDateInput.length; i++) {
+  //     let selectedStartDate = selectedStartDateInput[i].value;
+  //     let sliceSelectedStartDate = selectedStartDate.slice(0, 19);
+  //     let fullStartDate = sliceSelectedStartDate.slice(0, 10);
+  //     let fullStartTime = sliceSelectedStartDate.slice(11, 19);
+
+  //     startDateClone = `${fullStartDate} ${fullStartTime}`; // 2018-11-02 14:00:00
+
+  //     if (startDateClone) {
+  //       console.log("hello");
+  //       this.setState({
+  //         timeClicked: true
+  //       })
+  //     }
+  //   }
+  // }
+
+  // componentDidUpdate = () => {
+  //   this.timeSlotClicked();
+  // }
+
+  bookTimeSlot = event => {
+  
     let localUser = JSON.parse(localStorage.getItem("credentials"));
     let startDateClone = "";
     let endDateClone = "";
@@ -94,20 +92,28 @@ export default class Calendar extends Component {
     let bookedTennisCourtIdClone = 0;
 
     if (startDateClone) {
-      let alertCourtDate = moment(startDateClone).format('LLLL');
+      let alertCourtDate = moment(startDateClone).format('llll');
+
+      this.setState({
+        startDate: alertCourtDate
+      })
 
       APIManager.bookTennisCourt(bookedTennisCourtTable).then(court => {
         bookedTennisCourtIdClone = court.id;
-        console.log(bookedTennisCourtIdClone);
         this.setState({
           bookedTennisCourtId: bookedTennisCourtIdClone
         })
-        // alert(`Court ${this.props.userSelectedCourt} is booked for ${alertCourtDate}!`);
-        // window.location = "http://localhost:3000/manage-courts";
       });
-    } else {
-      alert("Please select a time slot!");
     }
+
+    let userNameClone = "";
+
+    APIManager.getUserById(localUser.userId).then(user => {
+      userNameClone = user.name
+      this.setState({
+        userName: userNameClone
+      })
+    });
   }
 
   render() {
@@ -123,46 +129,61 @@ export default class Calendar extends Component {
     if (this.state.openModal === true) {
       return (
         <React.Fragment>
-          <CourtModal bookedTennisCourtId={this.state.bookedTennisCourtId} names={this.props.names} openModal={this.state.openModal} handleOpen={this.handleOpen} />
-          <ReactTimeslotCalendar timeslots={[
-          ['10', '11'], // 10:00 AM - 11:00 AM
-          ['11', '12'], // 11:00 AM - 12:00 AM
-          ['12', '13'], // 12:00 AM - 1:00 PM
-          ['13', '14'], // 1:00 PM - 2:00 PM
-          ['14', '15'], // 2:00 PM - 3:00 PM
-          ['15', '16'] // 3:00 PM - 4:00 PM
-        ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
-          initialDate={moment().format()}
-        />
+          <CourtModal
+            userName={this.state.userName}
+            startDate={this.state.startDate}
+            userSelectedCourt={this.props.userSelectedCourt}
+            userSelectedSurface={this.props.userSelectedSurface}
+            bookedTennisCourtId={this.state.bookedTennisCourtId}
+            names={this.props.names}
+            openModal={this.state.openModal}
+            handleOpen={this.handleOpen}
+          />
+          <Grid
+            container
+            style={{ 'margin-top': '45px' }}
+          >
+            <ReactTimeslotCalendar timeslots={[
+              ['10', '11'], // 10:00 AM - 11:00 AM
+              ['11', '12'], // 11:00 AM - 12:00 AM
+              ['12', '13'], // 12:00 AM - 1:00 PM
+              ['13', '14'], // 1:00 PM - 2:00 PM
+              ['14', '15'], // 2:00 PM - 3:00 PM
+              ['15', '16'] // 3:00 PM - 4:00 PM
+            ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
+              initialDate={moment().format()}
+            />
+          </Grid>
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-        <br />
-        <br />
-        <br />
+          <BookButton bookTimeSlot={this.bookTimeSlot} handleOpen={this.handleOpen} />
 
-        {/* <BookButton bookTimeSlot={this.bookTimeSlot} /> */}
-        <BookButton bookTimeSlot={this.bookTimeSlot} handleOpen={this.handleOpen} />
+          <ScrollToTop showUnder={160}>
+            <Button style={upStyle} mini variant="fab" color="secondary" aria-label="Add">
+              <UpIcon />
+            </Button>
+          </ScrollToTop>
 
-        <ScrollToTop showUnder={160}>
-          <Button style={upStyle} mini variant="fab" color="secondary" aria-label="Add">
-            <UpIcon />
-          </Button>
-        </ScrollToTop>
+          <Grid
+            container
+            style={{ 'margin-top': '45px' }}
+          >
 
-        <ReactTimeslotCalendar timeslots={[
-          ['10', '11'], // 10:00 AM - 11:00 AM
-          ['11', '12'], // 11:00 AM - 12:00 AM
-          ['12', '13'], // 12:00 AM - 1:00 PM
-          ['13', '14'], // 1:00 PM - 2:00 PM
-          ['14', '15'], // 2:00 PM - 3:00 PM
-          ['15', '16'] // 3:00 PM - 4:00 PM
-        ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
-          initialDate={moment().format()}
-        />
-      </React.Fragment>
+            <ReactTimeslotCalendar timeslots={[
+              ['10', '11'], // 10:00 AM - 11:00 AM
+              ['11', '12'], // 11:00 AM - 12:00 AM
+              ['12', '13'], // 12:00 AM - 1:00 PM
+              ['13', '14'], // 1:00 PM - 2:00 PM
+              ['14', '15'], // 2:00 PM - 3:00 PM
+              ['15', '16'] // 3:00 PM - 4:00 PM
+            ]} disabledTimeslots={this.props.timeSlot} maxTimeslots={1}
+              initialDate={moment().format()}
+            />
+          </Grid>
+        </React.Fragment>
       )
     }
   }

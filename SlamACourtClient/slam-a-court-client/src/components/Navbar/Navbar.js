@@ -16,7 +16,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -139,6 +138,7 @@ class PersistentDrawerLeft extends React.Component {
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               Slam-A-Court
+              {/* <img src="https://s3.amazonaws.com/slam-a-court/images/tennis-ball-logo.jpg" /> */}
             </Typography>
           </Toolbar>
         </AppBar>

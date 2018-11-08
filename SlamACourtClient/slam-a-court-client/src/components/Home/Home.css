@@ -1,0 +1,20 @@
+#homeBackground {
+    background-image: url("https://s3.amazonaws.com/slam-a-court/images/court6.jpg");
+     /* Full height */
+     height: 100%; 
+
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+#greeting {
+    color: white;
+}
+
+#getStartedBtn {
+    color: white !important;
+    text-decoration: white !important;
+}
+

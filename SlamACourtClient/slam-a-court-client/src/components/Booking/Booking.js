@@ -3,6 +3,7 @@ import moment from 'moment';
 import CourtFilter from "./CourtFilter";
 import Calendar from "./Calendar";
 import APIManager from "../APIManager";
+import Navbar from "../Navbar/Navbar";
 
 export default class Booking extends Component {
   state = {
@@ -73,7 +74,6 @@ export default class Booking extends Component {
       })
       APIManager.getBookedTennisCourtsByTennisCourtId(courtId).then(bookedCourtData => {
         bookedCourtData.forEach(courts => {
-          console.log(courts);
 
           // MMMM Do YYYY, h:mm:ss a
           let extractStartTime = courts.startTime.slice(11, 19);
@@ -130,7 +130,10 @@ export default class Booking extends Component {
     if (this.renderCalendar()) {
       return (
         <React.Fragment>
+          <Navbar />
           <CourtFilter
+            userSelectedSurface={this.state.userSelectedSurface}
+            userSelectedCourt={this.state.userSelectedCourt}
             handleSurfaceChange={this.handleSurfaceChange}
             renderCourtSelectionBySurface={this.renderCourtSelectionBySurface}
             handleCourtChange={this.handleCourtChange}
@@ -142,10 +145,12 @@ export default class Booking extends Component {
     } else {
       return (
         <React.Fragment>
+          <Navbar />
           <Calendar
             timeSlot={this.state.timeSlot}
             tennisCourtId={this.state.tennisCourtId}
             userSelectedCourt={this.state.userSelectedCourt}
+            userSelectedSurface={this.state.userSelectedSurface}
             names={this.state.names}
           />
         </React.Fragment>

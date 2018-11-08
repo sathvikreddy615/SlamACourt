@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import BookButton from "./BookButton";
 import PartnerSelection from "./PartnerSelection";
-import APIManager from "../APIManager";
-import moment from 'moment';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -15,13 +11,10 @@ function rand() {
 
 function getModalStyle() {
     const top = 50 + rand();
-    const left = 50 + rand();
 
     return {
         top: `${top}%`,
         margin: 'auto'
-        // left: `${left}%`,
-        // transform: `translate(-${top}%, -${left}%)`,
     };
 }
 
@@ -36,13 +29,7 @@ const styles = theme => ({
 });
 
 class SimpleModal extends React.Component {
-    state = {
-
-    }
-
-    // componentDidUpdate = () => {
-    //     console.log(this.props.bookedTennisCourtId)
-    // }
+    state = {};
 
     render() {
         const { classes } = this.props;
@@ -56,13 +43,30 @@ class SimpleModal extends React.Component {
                     onClose={this.handleClose}
                 >
                     <div style={getModalStyle()} className={classes.paper}>
-                        <Typography variant="h6" id="modal-title">
-                            <PartnerSelection bookedTennisCourtId={this.props.bookedTennisCourtId} names={this.props.names} name={this.state.name} />
+                        <Typography nowrap variant="subtitle2" id="modal-title">
+                            <u>{this.props.userName} has made the following reservation:</u>
                         </Typography>
-                        <Typography variant="subtitle1" id="simple-modal-description">
-                            {/* <Button onClick={this.addPartners} variant="contained" color="primary" className={this.button}>
-                                Confirm
-                            </Button> */}
+                        <br />
+                        <Typography variant="caption" id="simple-modal-court">
+                            <b>Court:</b> {this.props.userSelectedCourt}
+                        </Typography>
+                        {/* <br /> */}
+                        <Typography variant="caption" id="simple-modal-surface">
+                            <b>Surface:</b> {this.props.userSelectedSurface}
+                        </Typography>
+                        {/* <br /> */}
+                        <Typography variant="caption" id="simple-modal-startDate">
+                            <b>Date:</b> {this.props.startDate}
+                        </Typography>
+                        <br />
+                        <Typography id="simple-modal-partners">
+                            <i>Please add the partner(s) you will be playing with:</i>
+                        </Typography>
+                        <Typography id="simple-modal-description">
+                            <PartnerSelection
+                                bookedTennisCourtId={this.props.bookedTennisCourtId}
+                                names={this.props.names}
+                                name={this.state.name} />
                         </Typography>
                         <SimpleModalWrapped />
                     </div>
