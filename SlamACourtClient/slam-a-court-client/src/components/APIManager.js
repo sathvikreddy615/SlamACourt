@@ -36,7 +36,7 @@ export default class APIManager {
   static bookTennisCourt = data => {
     return fetch(`https://apislamacourt.azurewebsites.net/api/bookedtenniscourt`, {
       method: "POST",
-      headers: {``
+      headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json"
       },
